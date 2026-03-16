@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Jornada | Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Cuestionario Jornada</h1>
+            <p class="subtitle">Legislación colombiana: Recargos y descansos</p>
+        </header>
+
+        <!-- View 1: Registration -->
+        <div id="registrationView" class="view active">
+            <div class="pregunta-container active">
+                <div class="pregunta-titulo">Registro de Participante</div>
+                <p class="subtitle">Ingresa tus datos para comenzar el cuestionario.</p>
+                <div class="registration-form">
+                    <div class="input-group">
+                        <label for="cedula">Número de Cédula</label>
+                        <input type="text" id="cedula" placeholder="Ej: 123456789" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" placeholder="usuario@ejemplo.com" required>
+                    </div>
+                    <button type="button" class="submit-btn" onclick="iniciarCuestionario()">Comenzar</button>
+                </div>
+                <div id="regWarning" class="warning"></div>
+            </div>
+        </div>
+
+        <!-- View 2: Quiz -->
+        <div id="quizView" class="view">
+            <div id="welcomeGreeting" style="margin-bottom: 20px; font-weight: 600; color: var(--accent-color); font-size: 1.1rem;"></div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+
+            <form id="quizForm">
+                <!-- Question 1 -->
+                <div class="pregunta-container" id="p1">
+                    <div class="pregunta-titulo">1. A partir del 16 de julio de 2026, ¿cuál será la jornada máxima laboral semanal en Colombia?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q1" value="A"> A) 46 horas</label>
+                        <label class="option-label"><input type="radio" name="q1" value="B"> B) 44 horas</label>
+                        <label class="option-label"><input type="radio" name="q1" value="C"> C) 42 horas</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(1)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint1">La Ley 2101 de 2021 establece una reducción gradual hasta llegar a esta cifra.</div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="pregunta-container" id="p2">
+                    <div class="pregunta-titulo">2. En una jornada diaria flexible acordada para no pagar horas extras, ¿cuál es el límite máximo de horas diarias permitidas?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q2" value="A"> A) 8 horas</label>
+                        <label class="option-label"><input type="radio" name="q2" value="B"> B) 9 horas</label>
+                        <label class="option-label"><input type="radio" name="q2" value="C"> C) 10 horas</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(2)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint2">Permite trabajar más horas unos días para compensar otros, sin superar el límite semanal.</div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="pregunta-container" id="p3">
+                    <div class="pregunta-titulo">3. ¿Es obligatorio por ley que el día de descanso remunerado sea exclusivamente el domingo?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q3" value="A"> A) Sí, siempre debe ser el domingo.</label>
+                        <label class="option-label"><input type="radio" name="q3" value="B"> B) No, empleador y trabajador pueden acordar otro día.</label>
+                        <label class="option-label"><input type="radio" name="q3" value="C"> C) Solo puede cambiarse si el empleado trabaja medio tiempo.</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(3)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint3">El Código Sustantivo del Trabajo permite flexibilidad en el día de descanso si hay acuerdo.</div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="pregunta-container" id="p4">
+                    <div class="pregunta-titulo">4. Si un empleado trabaja ocasionalmente 1 o 2 domingos al mes, ¿qué derecho le otorga la ley?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q4" value="A"> A) Recibe el pago y un día compensatorio simultáneamente.</label>
+                        <label class="option-label"><input type="radio" name="q4" value="B"> B) Debe elegir entre remuneración con recargo o día compensatorio.</label>
+                        <label class="option-label"><input type="radio" name="q4" value="C"> C) Solo tiene derecho al pago ordinario.</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(4)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint4">Menos de 3 domingos al mes se considera ocasional y da una opción de beneficio.</div>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="pregunta-container" id="p5">
+                    <div class="pregunta-titulo">5. ¿A partir de cuántos domingos laborados al mes se considera "habitual"?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q5" value="A"> A) 2 o más domingos.</label>
+                        <label class="option-label"><input type="radio" name="q5" value="B"> B) 3 o más domingos.</label>
+                        <label class="option-label"><input type="radio" name="q5" value="C"> C) 4 domingos obligatoriamente.</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(5)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint5">Piensa en la mayoría de los domingos de un mes típico (más de la mitad).</div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="pregunta-container" id="p6">
+                    <div class="pregunta-titulo">6. ¿Qué beneficios recibe el trabajador por laborar de forma "habitual" los domingos?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q6" value="A"> A) Pago del recargo dominical Y día de descanso compensatorio.</label>
+                        <label class="option-label"><input type="radio" name="q6" value="B"> B) Pierde el recargo y solo obtiene el día compensatorio.</label>
+                        <label class="option-label"><input type="radio" name="q6" value="C"> C) El recargo disminuye al 35%.</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(6)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint6">Se reconoce el esfuerzo constante con ambos beneficios de forma concurrente.</div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="pregunta-container" id="p7">
+                    <div class="pregunta-titulo">7. ¿Cuál es el porcentaje de recargo legal por una hora extra nocturna?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q7" value="A"> A) 25%</label>
+                        <label class="option-label"><input type="radio" name="q7" value="B"> B) 35%</label>
+                        <label class="option-label"><input type="radio" name="q7" value="C"> C) 75%</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(7)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint7">Es la suma del recargo por hora extra diurna (25%) y el recargo nocturno (35%)? No, es un valor fijo mayor.</div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="pregunta-container" id="p8">
+                    <div class="pregunta-titulo">8. ¿Qué recargo se le aplica a una hora extra diurna regular?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q8" value="A"> A) 25%</label>
+                        <label class="option-label"><input type="radio" name="q8" value="B"> B) 75%</label>
+                        <label class="option-label"><input type="radio" name="q8" value="C"> C) 105%</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(8)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint8">El recargo básico por trabajar más allá de la jornada ordinaria en el día.</div>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="pregunta-container" id="p9">
+                    <div class="pregunta-titulo">9. Según la Ley 2466 de 2025, ¿cuál es el recargo dominical entre julio 2025 y junio 2026?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q9" value="A"> A) 75%</label>
+                        <label class="option-label"><input type="radio" name="q9" value="B"> B) 80%</label>
+                        <label class="option-label"><input type="radio" name="q9" value="C"> C) 100%</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(9)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint9">Una ley reciente que aumenta gradualmente el recargo dominical del 75% al 100%.</div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="pregunta-container" id="p10">
+                    <div class="pregunta-titulo">10. ¿Qué recargo recibe el trabajador en horario nocturno ordinario (sin extras)?</div>
+                    <div class="opciones">
+                        <label class="option-label"><input type="radio" name="q10" value="A"> A) 25%</label>
+                        <label class="option-label"><input type="radio" name="q10" value="B"> B) 35%</label>
+                        <label class="option-label"><input type="radio" name="q10" value="C"> C) 75%</label>
+                    </div>
+                    <div class="hint-container">
+                        <button type="button" class="hint-btn" onclick="toggleHint(10)">¿Necesitas una pista?</button>
+                        <div class="hint-text" id="hint10">Un recargo adicional por el simple hecho de trabajar de noche (después de las 7:00 p.m.).</div>
+                    </div>
+                </div>
+
+                <div class="nav-controls">
+                    <button type="button" class="secondary-btn" id="prevBtn" onclick="navigate(-1)">Anterior</button>
+                    <button type="button" class="submit-btn" id="nextBtn" onclick="navigate(1)">Siguiente</button>
+                </div>
+                <div id="quizWarning" class="warning"></div>
+            </form>
+        </div>
+
+        <div id="resultado">
+            <h2>Resultado Final</h2>
+            <p id="userNameDisplay" style="color: var(--text-secondary); margin-bottom: 20px;"></p>
+            <div class="score">0.0 / 5.0</div>
+            
+            <div style="margin: 30px 0; background: rgba(255,255,255,0.03); border-radius: 15px; padding: 20px;">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+
+            <p id="recordingStatus" style="font-size: 0.9rem; color: var(--accent-color); margin-bottom: 20px;"></p>
+            <button type="button" class="submit-btn" onclick="location.reload()">Reiniciar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
